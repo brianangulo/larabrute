@@ -11,7 +11,9 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
+mix.js('resources/js/bruteforcerer/src/index.js', 'public/js')
+    .react()
     .postCss('resources/css/app.css', 'public/css', [
         //
     ]);
+
