@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,3 +17,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('/register', [RegisterController::class, 'create'])->name('api.register');
+
+Route::get('/users/{username?}', [UserController::class, 'index'])->name('api.getUsers');
