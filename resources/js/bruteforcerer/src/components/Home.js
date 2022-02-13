@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   setPassword,
@@ -12,7 +12,7 @@ import Content from "./HomeContent";
 
 const bruteforce = require("bruteforcejs");
 
-function Home(props) {
+function Home() {
   //dispatcher
   const dispatch = useDispatch();
   //state variables
@@ -21,6 +21,7 @@ function Home(props) {
   const enteredPass = useSelector((state) => state.slicer.enteredPass);
   const toggleReveal = useSelector((state) => state.slicer.toggleReveal);
   const isMobile = useSelector((state) => state.slicer.isMobile);
+  
   //handles change on the form
   const handleChange = (value) => {
     dispatch(setPassword(value.target.value));
@@ -29,17 +30,41 @@ function Home(props) {
   //handles screen resizing behavior
   const handleIsMobile = () => {
     dispatch(setIsMobile(window.innerWidth < 500))
-    console.log("handle mobile called!");
   };
 
   //Adding listener for window resizing by user
   useEffect(
-   () => {window.addEventListener("resize", handleIsMobile())}
+    () => { window.addEventListener("resize", handleIsMobile()) }
   )
+
+  //bruteforcing on the backend
+  const phpBruteforcing = async password => {
+    try {
+      const endpoint = '/api/brute';
+      const headers = {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      };
+      const body = {
+        password: password,
+      };
+      const requestInit = {
+        method: 'POST',
+        cache: 'no-cache',
+        headers: headers,
+        body: body,
+      }
+      const response = await fetch(endpoint, requestInit);
+      const timer = await response.json();
+      
+      return timer;
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   //Keeping it all together for better perfomance bruteforcing algorithm on submit
   const handleSubmit = () => {
-    console.log(password);
     //Controling toggle for reveal text
     dispatch(setToggleReveal(true));
     //Setting timer
@@ -51,11 +76,6 @@ function Home(props) {
           const bfEnd = performance.now();
           dispatch(setEnteredPas(result));
           dispatch(setTimer((bfEnd - bfInit).toFixed(2)));
-          console.log(
-            `The last result is: ${result} and time is ${(
-              bfEnd - bfInit
-            ).toFixed(2)}ms`
-          );
           return true;
         }
       },
