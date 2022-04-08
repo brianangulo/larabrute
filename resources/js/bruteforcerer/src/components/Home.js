@@ -37,32 +37,6 @@ function Home() {
     () => { window.addEventListener("resize", handleIsMobile()) }
   )
 
-  //bruteforcing on the backend
-  const phpBruteforcing = async password => {
-    try {
-      const endpoint = '/api/brute';
-      const headers = {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      };
-      const body = {
-        password: password,
-      };
-      const requestInit = {
-        method: 'POST',
-        cache: 'no-cache',
-        headers: headers,
-        body: body,
-      }
-      const response = await fetch(endpoint, requestInit);
-      const timer = await response.json();
-      
-      return timer;
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
   //Keeping it all together for better perfomance bruteforcing algorithm on submit
   const handleSubmit = () => {
     //Controling toggle for reveal text
