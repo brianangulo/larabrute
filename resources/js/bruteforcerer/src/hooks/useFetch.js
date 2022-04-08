@@ -9,7 +9,7 @@ export const FETCH_METHODS = {
 };
 
 /**
- *
+ * General purpose hook meant for data fetching
  * @param {FETCH_METHODS} method The method for the request i.e POST or GET
  * @param {string} endpoint The endpoint the request is going to
  * @param {Object} payload An object with the payload for POST requests
