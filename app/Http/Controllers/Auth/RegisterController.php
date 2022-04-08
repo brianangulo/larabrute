@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class RegisterController extends Controller
 {
@@ -17,5 +18,6 @@ class RegisterController extends Controller
         $user->username = $request->username;
         $user->score = $request->score;
         $user->save();
+        return Response::HTTP_OK;
     }
 }
