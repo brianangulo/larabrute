@@ -2,6 +2,11 @@ import { ENDPOINTS } from '../api/endpoints';
 import { useFetch } from './useFetch';
 import { FETCH_METHODS } from './useFetch';
 
+const STATUS = {
+  SUCCESS: true,
+  FAILED: false,
+};
+
 export const useRegister = async (username, score = '0') => {
   // error catcher
   const catcher = (err) => {
@@ -12,10 +17,9 @@ export const useRegister = async (username, score = '0') => {
     username: username,
     score: score,
   }).catch(catcher);
-  let data = null;
+
   if (response.ok) {
-    data = await response.json().catch(catcher);
-    return data;
+    return STATUS.SUCCESS;
   }
-  return data;
+  return STATUS.FAILED;
 };
