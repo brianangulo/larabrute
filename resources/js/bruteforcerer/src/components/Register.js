@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { useRegister } from '../hooks';
+import { useRegisterUsername } from '../hooks';
 import { Button, Modal, Form } from 'react-bootstrap';
 
 function RegisterModal() {
@@ -19,7 +19,7 @@ function RegisterModal() {
     async (username) => {
       setLoading(true);
       // eslint-disable-next-line react-hooks/rules-of-hooks
-      const registerResponse = await useRegister(username);
+      const registerResponse = await useRegisterUsername(username);
       if (!registerResponse) {
         setError(true);
       }

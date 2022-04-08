@@ -7,7 +7,7 @@ const STATUS = {
   FAILED: false,
 };
 
-export const useRegister = async (username, score = '0') => {
+export const useRegisterUsername = async (username, score = '0') => {
   // error catcher
   const catcher = (err) => {
     console.error(err);
