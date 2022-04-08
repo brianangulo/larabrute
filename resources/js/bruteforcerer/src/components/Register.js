@@ -8,22 +8,28 @@ function RegisterModal() {
   const [loading, setLoading] = useState(false);
   const [username, setUsername] = useState('');
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setUsername('');
     setError(false);
     setShow(false);
-  };
+  }, []);
   const handleShow = () => setShow(true);
 
-  const handleRegister = useCallback(async (username) => {
-    setLoading(true);
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const dataResponse = await useRegister(username);
-    if (!dataResponse) {
-      setError(true);
-    }
-    setLoading(false);
-  }, []);
+  const handleRegister = useCallback(
+    async (username) => {
+      setLoading(true);
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const registerResponse = await useRegister(username);
+      if (!registerResponse) {
+        setError(true);
+      }
+      setLoading(false);
+      if (registerResponse) {
+        setShow(false);
+      }
+    },
+    []
+  );
 
   return (
     <>
@@ -31,7 +37,7 @@ function RegisterModal() {
         Register
       </Button>
 
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={show} onExiting={handleClose} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Enter Username</Modal.Title>
         </Modal.Header>
