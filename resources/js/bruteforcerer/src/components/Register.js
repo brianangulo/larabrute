@@ -19,29 +19,39 @@ function RegisterModal() {
   const handleShow = () => setShow(true);
 
   const handleRegister = useCallback(async (username) => {
-    const isUserNameEmpty = username.length === 0;
-    if (isUserNameEmpty) {
-      setIsEmpty(true);
-      if (error) {
-        setError(false);
+      try {
+          const isUserNameEmpty = username.length === 0;
+          if (isUserNameEmpty) {
+              setIsEmpty(true);
+              if (error) {
+                  setError(false);
+              }
+          }
+          if (!isUserNameEmpty) {
+              setLoading(true);
+              // eslint-disable-next-line react-hooks/rules-of-hooks
+              const registerResponse = await useRegisterUsername(username);
+              if (!registerResponse) {
+                  setError(true);
+                  if (isEmpty) {
+                      setIsEmpty(false);
+                  }
+              }
+              setLoading(false);
+              if (registerResponse) {
+                  setShow(false);
+              }
+          }
+      } catch (e) {
+          console.error('Error at handleRegister', e);
       }
-    }
-    if (!isUserNameEmpty) {
-      setLoading(true);
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      const registerResponse = await useRegisterUsername(username);
-      if (!registerResponse) {
-        setError(true);
-        if (isEmpty) {
-          setIsEmpty(false);
-        }
-      }
-      setLoading(false);
-      if (registerResponse) {
-        setShow(false);
-      }
-    }
   }, [error, isEmpty]);
+
+    const handleOnKeyPress = useCallback((event) => {
+        if (event.key === 'Enter') {
+            handleRegister(String(username));
+        }
+    }, [handleRegister, username])
 
   return (
     <>
@@ -58,6 +68,7 @@ function RegisterModal() {
             type="username"
             placeholder="i.e doritos"
             value={username}
+            onKeyPress={handleOnKeyPress}
             onChange={(event) => setUsername(event.target.value)}
           />
           {error && (
