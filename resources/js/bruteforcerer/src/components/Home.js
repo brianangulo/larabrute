@@ -21,7 +21,7 @@ function Home() {
   const enteredPass = useSelector((state) => state.slicer.enteredPass);
   const toggleReveal = useSelector((state) => state.slicer.toggleReveal);
   const isMobile = useSelector((state) => state.slicer.isMobile);
-  
+
   //handles change on the form
   const handleChange = (value) => {
     dispatch(setPassword(value.target.value));
@@ -34,12 +34,12 @@ function Home() {
 
   //Adding listener for window resizing by user
   useEffect(
-    () => { window.addEventListener("resize", handleIsMobile()) }
+    () => { window.addEventListener("resize", handleIsMobile) }
   )
 
-  //Keeping it all together for better perfomance bruteforcing algorithm on submit
+  //Keeping it all together for better performance bruteforcing algorithm on submit
   const handleSubmit = () => {
-    //Controling toggle for reveal text
+    //Controlling toggle for reveal text
     dispatch(setToggleReveal(true));
     //Setting timer
     const bfInit = performance.now();
