@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\ScoreController;
 use App\Http\Controllers\UserController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,3 +19,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('/register', [RegisterController::class, 'create'])->name('api.register');
 
 Route::get('/users/{username?}', [UserController::class, 'index'])->name('api.getUsers');
+
+Route::post('/add-score', [ScoreController::class, 'addScore'])->name('api.addScore');
+
+Route::get('/scores', [ScoreController::class, 'getScore'])->name('api.getScore');

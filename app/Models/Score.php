@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @property mixed $username
- * @property mixed $score
+ * @property string $word
+ * @property float $time
  */
-class User extends Model
+class Score extends Model
 {
     use HasFactory;
 }

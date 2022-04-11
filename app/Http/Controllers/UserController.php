@@ -10,10 +10,8 @@ class UserController extends Controller
     public function index(Request $request, $username = null)
     {
         if ($username !== null) {
-            $user = User::where('username', $username)->first();
-            return $user;
+            return User::where('username', $username)->first();
         }
-        $users = User::orderByRaw('CONVERT(score, SIGNED) desc')->get();
-        return $users;
+        return User::orderByRaw('CONVERT(score, SIGNED) desc')->get();
     }
 }
