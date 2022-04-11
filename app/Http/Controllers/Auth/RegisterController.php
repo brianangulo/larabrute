@@ -5,8 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Symfony\Component\HttpFoundation\Response as ResponseAlias;
+use Symfony\Component\HttpFoundation\Response;
 
 class RegisterController extends Controller
 {
@@ -20,6 +19,6 @@ class RegisterController extends Controller
         $user->username = $request->username;
         $user->score = $request->score;
         $user->save();
-        return ResponseAlias::HTTP_OK;
+        return Response::HTTP_OK;
     }
 }
