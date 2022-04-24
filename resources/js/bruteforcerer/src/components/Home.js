@@ -1,4 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useCallback } from "react";
+import { useFetch } from "../hooks";
+import { ENDPOINTS } from "../api/endpoints";
+import { FETCH_METHODS } from "../hooks";
 import { useSelector, useDispatch } from "react-redux";
 import {
   setPassword,
@@ -21,6 +24,25 @@ function Home() {
   const enteredPass = useSelector((state) => state.slicer.enteredPass);
   const toggleReveal = useSelector((state) => state.slicer.toggleReveal);
   const isMobile = useSelector((state) => state.slicer.isMobile);
+
+  const handleSubmitScore = useCallback(async (word, time, attempts = 0) => {
+    // if attempted 3 times stop
+    const MAX_ATTEMPTS = 3;
+    if (attempts > MAX_ATTEMPTS) return console.error('Unable to submit score');
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const response = await useFetch(FETCH_METHODS.POST, ENDPOINTS.addScore, {
+      word: word,
+      time: time,
+    }).catch(err => {
+      console.error('Error at handleSubmit', err);
+      return null;
+    });
+    // retrying if failed
+    if (!response.ok) {
+      console.log('retrying', attempts);
+      handleSubmitScore(word, time, attempts + 1)
+    }
+  }, []);
 
   //handles change on the form
   const handleChange = (value) => {
@@ -49,7 +71,9 @@ function Home() {
         if (result === password) {
           const bfEnd = performance.now();
           dispatch(setEnteredPas(result));
-          dispatch(setTimer((bfEnd - bfInit).toFixed(2)));
+          const timeTaken = (bfEnd - bfInit).toFixed(2);
+          dispatch(setTimer(timeTaken));
+          handleSubmitScore(result, timeTaken);
           return true;
         }
       },
