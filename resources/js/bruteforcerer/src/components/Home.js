@@ -1,19 +1,19 @@
-import React, { useEffect, useCallback } from "react";
-import { useFetch } from "../hooks";
-import { ENDPOINTS } from "../api/endpoints";
-import { FETCH_METHODS } from "../hooks";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useEffect, useCallback, useState } from 'react';
+import { useFetch } from '../hooks';
+import { ENDPOINTS } from '../api/endpoints';
+import { FETCH_METHODS } from '../hooks';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   setPassword,
   setTimer,
   setEnteredPas,
   setToggleReveal,
   setIsMobile,
-} from "../redux/slicer";
-import { chars } from "../shared/chars";
-import Content from "./HomeContent";
+} from '../redux/slicer';
+import { chars } from '../shared/chars';
+import Content from './HomeContent';
 
-const bruteforce = require("bruteforcejs");
+const bruteforce = require('bruteforcejs');
 
 function Home() {
   //dispatcher
@@ -24,6 +24,30 @@ function Home() {
   const enteredPass = useSelector((state) => state.slicer.enteredPass);
   const toggleReveal = useSelector((state) => state.slicer.toggleReveal);
   const isMobile = useSelector((state) => state.slicer.isMobile);
+  // top list state
+  const [topListData, setTopListData] = useState([]);
+  const [topListLoading, setTopListLoading] = useState(false);
+
+  const fetchTopListData = async () => {
+    setTopListLoading(true);
+    try {
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const response = await useFetch(FETCH_METHODS.GET, ENDPOINTS.getScore);
+      if (response.ok) {
+        const json = await response.json();
+        setTopListData(json);
+      }
+      setTopListLoading(false);
+    } catch (error) {
+      console.error('Error at fetchTopList', error);
+      setTopListLoading(false);
+      setTopListData([]);
+    }
+  };
+
+  useEffect(() => {
+    fetchTopListData();
+  }, []);
 
   const handleSubmitScore = useCallback(async (word, time, attempts = 0) => {
     // if attempted 3 times stop
@@ -33,14 +57,16 @@ function Home() {
     const response = await useFetch(FETCH_METHODS.POST, ENDPOINTS.addScore, {
       word: word,
       time: time,
-    }).catch(err => {
+    }).catch((err) => {
       console.error('Error at handleSubmit', err);
       return null;
     });
+    // also fetching top list data to update toplist
+    fetchTopListData();
     // retrying if failed
     if (!response.ok) {
       console.log('retrying', attempts);
-      handleSubmitScore(word, time, attempts + 1)
+      handleSubmitScore(word, time, attempts + 1);
     }
   }, []);
 
@@ -51,13 +77,13 @@ function Home() {
 
   //handles screen resizing behavior
   const handleIsMobile = () => {
-    dispatch(setIsMobile(window.innerWidth < 500))
+    dispatch(setIsMobile(window.innerWidth < 500));
   };
 
   //Adding listener for window resizing by user
-  useEffect(
-    () => { window.addEventListener("resize", handleIsMobile) }
-  )
+  useEffect(() => {
+    window.addEventListener('resize', handleIsMobile);
+  });
 
   //Keeping it all together for better performance bruteforcing algorithm on submit
   const handleSubmit = () => {
@@ -79,20 +105,24 @@ function Home() {
       },
       4
     );
-    dispatch(setPassword(""));
+    dispatch(setPassword(''));
   };
 
   return (
-    <Content
-      handleChange={handleChange}
-      password={password}
-      handleSubmit={handleSubmit}
-      timer={timer}
-      enteredPass={enteredPass}
-      toggleReveal={toggleReveal}
-      submitToggle={false}
-      isMobile={isMobile}
-    />
+    <>
+      <Content
+        topListData={topListData}
+        topListLoading={topListLoading}
+        handleChange={handleChange}
+        password={password}
+        handleSubmit={handleSubmit}
+        timer={timer}
+        enteredPass={enteredPass}
+        toggleReveal={toggleReveal}
+        submitToggle={false}
+        isMobile={isMobile}
+      />
+    </>
   );
 }
 
