@@ -38,7 +38,7 @@ class ScoreController extends Controller
                 $score_arr[] = $score->id;
             }
             Score::whereNotIn('id', $score_arr)->delete();
-            return $scores_collection;
+            return response()->json($scores_collection);
         } catch (\Exception $e) {
             return response()->json(self::ERROR_MESSAGE, self::ERR_RESPONSE_CODE);
         }
