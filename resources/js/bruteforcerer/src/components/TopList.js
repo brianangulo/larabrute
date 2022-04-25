@@ -21,7 +21,7 @@ const TopList = ({ data, loading }) => {
         ) : (
           data.map((score, index) => {
             return (
-              <ListGroup.Item>
+              <ListGroup.Item key={String(score.id)}>
                 <div className="font-weight-bold d-inline">{index + 1}.</div>
                 <div className="font-italic d-inline"> {score.word}:</div>
                 {` ${score.time} milliseconds`}
