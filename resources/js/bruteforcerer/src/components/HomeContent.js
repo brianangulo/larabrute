@@ -1,23 +1,33 @@
-import React from "react";
-import { TextField, Button } from "@material-ui/core";
-import RevealText from "./RevealText";
-import Article from "./Article.js";
-import hackerGif from "../shared/giphy.gif";
-import bgImg from "../shared/bgimg.jpg";
-import Error from "./Error";
+import React from 'react';
+import { TextField, Button } from '@material-ui/core';
+import RevealText from './RevealText';
+import Article from './Article.js';
+import hackerGif from '../shared/giphy.gif';
+import bgImg from '../shared/bgimg.jpg';
+import Error from './Error';
+import TopList from './TopList';
 
 function Content(props) {
-//regexp
-const regex = /^[A-Za-z0-9]{0,4}$/;
+  //regexp
+  const regex = /^[A-Za-z0-9]{0,4}$/;
   return (
     <div id="homeContent" style={{ backgroundImage: `url(${bgImg})` }}>
       <Article />
       <div className="container">
-        <div className="row gutter-sm p-2 justify-content-center">
-          <img hidden={props.isMobile} src={hackerGif} alt="Hacker gif" />
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <TopList data={props.topListData} loading={props.topListLoading} />
+          <div className="row gutter-sm p-2 justify-content-center">
+            <img hidden={props.isMobile} src={hackerGif} alt="Hacker gif" />
+          </div>
         </div>
         <div className="row gutter-sm justify-content-center">
-          <h4>How long will it take us to break your password?</h4>
+          <h4>How long will it take to break your password?</h4>
           <br />
         </div>
         <div className="row justify-content-center">
