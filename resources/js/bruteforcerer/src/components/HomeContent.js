@@ -27,7 +27,7 @@ function Content(props) {
           </div>
         </div>
         <div className="row gutter-sm justify-content-center">
-          <h4>How long will it take us to break your password?</h4>
+          <h4>How long will it take to break your password?</h4>
           <br />
         </div>
         <div className="row justify-content-center">
