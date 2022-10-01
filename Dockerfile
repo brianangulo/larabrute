@@ -11,6 +11,8 @@ FROM php:8.1-cli as php_builder
 
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
+RUN apt-get update -y && apt-get install git zip -y
+
 COPY --from=node_builder /usr/www /usr/www
 
 WORKDIR /usr/www
