@@ -9,7 +9,7 @@ services:
         restart: unless-stopped
         working_dir: /var/www/
         volumes:
-            - ../:/var/www
+            - larabrute_volume:/var/www
     nginx:
         build:
             context: ./nginx/
@@ -19,7 +19,9 @@ services:
         ports:
             - "80:80"
         volumes:
-            - ../:/var/www
+            - larabrute_volume:/var/www
+volumes:
+    larabrute_volume:
 networks:
     default:
         name: mysql
