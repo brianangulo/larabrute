@@ -1,4 +1,4 @@
-version: '3.3'
+version: '3.8'
 
 services:
     app:
@@ -6,6 +6,7 @@ services:
             context: ./
             dockerfile: Dockerfile
         container_name: larabrute_php
+        image: brian219/larabrute_php
         restart: unless-stopped
         working_dir: /var/www/
         volumes:
@@ -15,6 +16,7 @@ services:
             context: ./nginx/
             dockerfile: Dockerfile
         container_name: larabrute_nginx
+        image: brian219/larabrute_nginx
         restart: unless-stopped
         ports:
             - "80:80"
