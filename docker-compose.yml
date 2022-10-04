@@ -6,7 +6,7 @@ services:
             context: ./
             dockerfile: Dockerfile
         container_name: larabrute_php
-        image: brian219/larabrute_php
+        image: brian219/larabrute_php:${CURRENT_TAG:-master}
         restart: unless-stopped
         working_dir: /var/www/
         volumes:
@@ -16,7 +16,7 @@ services:
             context: ./nginx/
             dockerfile: Dockerfile
         container_name: larabrute_nginx
-        image: brian219/larabrute_nginx
+        image: brian219/larabrute_nginx:${CURRENT_TAG:-master}
         restart: unless-stopped
         ports:
             - "80:80"

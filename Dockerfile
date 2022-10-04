@@ -1,6 +1,8 @@
 # this dockerfile is used for creating an image with assets
 FROM node:14.17 as node_builder
 
+USER root
+
 COPY --chown=www-data:www-data . /var/www
 
 WORKDIR /var/www
