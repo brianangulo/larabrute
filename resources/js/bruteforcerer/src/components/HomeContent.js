@@ -27,11 +27,11 @@ function Content(props) {
           </div>
         </div>
         <div className="row gutter-sm justify-content-center">
-          <h4>How long will it take to break your password?</h4>
+          <h4>How long will it take to brute force your password?</h4>
           <br />
         </div>
         <div className="row justify-content-center">
-          <h5>Test Below: </h5>
+          <h5>Test it now: </h5>
         </div>
         <div className="row gutter-sm justify-content-center">
           <form noValidate autoComplete="off">
