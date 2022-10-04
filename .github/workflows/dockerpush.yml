@@ -40,9 +40,7 @@ jobs:
         with:
           hosts: ${{ secrets.SSH_HOST }}
           privateKey: ${{ secrets.SSH_KEY }}
-          command: |
-            export CURRENT_TAG=v1.${{ github.run_number }}.0
-            bash /home/ec2-user/update_larabrute.sh
+          command: bash /home/ec2-user/update_larabrute.sh
 
   release-app:
     name: Release App
