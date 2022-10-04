@@ -19,11 +19,11 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
       
-      - name: Create network to allow building compose
-        run: docker network create mysql
+      # - name: Create network to allow building compose
+      #   run: docker network create mysql
 
       - name: Build images
-        run: docker-compose up --build
+        run: docker-compose --build -d
 
       - name: Push images to Docker Hub
         run: docker-compose --push
