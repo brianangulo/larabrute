@@ -41,7 +41,7 @@ jobs:
           hosts: ${{ secrets.SSH_HOST }}
           privateKey: ${{ secrets.SSH_KEY }}
           command: |
-            echo ${{ env.CURRENT_TAG }} > /home/ec2-user/larabrute/.env
+            echo CURRENT_TAG=${{ env.CURRENT_TAG }} > /home/ec2-user/larabrute/.env
             bash /home/ec2-user/update_larabrute.sh
 
   release-app:
