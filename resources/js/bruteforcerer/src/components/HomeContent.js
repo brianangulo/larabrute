@@ -31,7 +31,7 @@ function Content(props) {
           <br />
         </div>
         <div className="row justify-content-center">
-          <h5>Test a 4 character password below: </h5>
+          <h5>Test it out below (4 character limit): </h5>
         </div>
         <div className="row gutter-sm justify-content-center">
           <form noValidate autoComplete="off">
